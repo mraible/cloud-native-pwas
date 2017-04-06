@@ -44,15 +44,6 @@ cf s
 # build all the java apps
 cd $r && find . -iname pom.xml | xargs -I pom  mvn -DskipTests clean install -f pom
 
-# Get the URL for the client
-clientUri=https://`app_domain pwa-client`
-
-# replace the client URL in the server
-sed -i -e "s|http://localhost:4200|$clientUri|g" $r/edge-service/src/main/resources/application.properties
-# repackage the edge-service
-cd $r/edge-service
-mvn package -DskipTests
-
 # Eureka
 cd $r/eureka-service
 cf push -p target/*jar pwa-eureka-service  --random-route
@@ -76,8 +67,8 @@ serverUri=https://`app_domain pwa-edge-service`
 # Client 
 cd $r/client
 rm -rf dist
+sed -i -e "s|http://localhost:8081|$serverUri|g" $r/client/src/app/shared/beer/beer.service.ts
 npm install && ng build -prod --aot
-sed -i -e "s|http://localhost:8081|serverUri|g" $r/client/src/app/shared/beer/beer.service.ts
 python $r/sw.py
 cd dist
 touch Staticfile
@@ -88,8 +79,6 @@ cf start pwa-client
 # cleanup changed files
 git checkout $r/client
 rm $r/client/src/app/shared/beer/beer.service.ts-e
-git checkout $r/edge-service
-rm $r/edge-service/src/main/resources/application.properties-e
 
 # show apps and URLs
 cf apps
