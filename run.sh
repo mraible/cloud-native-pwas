@@ -7,9 +7,9 @@ r=`pwd`
 echo $r
 
 # client first
-cd $r/client
-npm install
-ng serve &
+#cd $r/client
+#npm install
+#ng serve &
 
 # Eureka
 cd $r/eureka-service
