@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BeerListComponent } from './beer-list.component';
+import { AppMaterialModule } from '../app.material.module';
+import { BeerService } from '../shared/beer/beer.service';
+import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
+import { MockBackend } from '@angular/http/testing';
+import { GiphyService } from '../shared/giphy/giphy.service';
 
 describe('BeerListComponent', () => {
   let component: BeerListComponent;
@@ -8,7 +13,16 @@ describe('BeerListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BeerListComponent ]
+      declarations: [ BeerListComponent ],
+      imports: [AppMaterialModule],
+      providers: [BeerService, GiphyService, {
+        provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
+          return new Http(backend, defaultOptions);
+        },
+        deps: [MockBackend, BaseRequestOptions]
+      },
+        {provide: MockBackend, useClass: MockBackend},
+        {provide: BaseRequestOptions, useClass: BaseRequestOptions}]
     })
     .compileComponents();
   }));
@@ -19,7 +33,7 @@ describe('BeerListComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it('should be created', () => {
     expect(component).toBeTruthy();
   });
 });
