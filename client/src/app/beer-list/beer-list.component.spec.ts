@@ -6,6 +6,7 @@ import { BeerService } from '../shared/beer/beer.service';
 import { BaseRequestOptions, ConnectionBackend, Http } from '@angular/http';
 import { MockBackend } from '@angular/http/testing';
 import { GiphyService } from '../shared/giphy/giphy.service';
+import { OktaAuthService } from '../shared/okta/okta.service';
 
 describe('BeerListComponent', () => {
   let component: BeerListComponent;
@@ -15,7 +16,7 @@ describe('BeerListComponent', () => {
     TestBed.configureTestingModule({
       declarations: [ BeerListComponent ],
       imports: [AppMaterialModule],
-      providers: [BeerService, GiphyService, {
+      providers: [BeerService, GiphyService, OktaAuthService, {
         provide: Http, useFactory: (backend: ConnectionBackend, defaultOptions: BaseRequestOptions) => {
           return new Http(backend, defaultOptions);
         },
