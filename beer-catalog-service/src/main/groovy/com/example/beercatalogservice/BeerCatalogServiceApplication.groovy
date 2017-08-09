@@ -19,35 +19,38 @@ import javax.persistence.Id
 @SpringBootApplication
 class BeerCatalogServiceApplication {
 
-    @Bean
-    ApplicationRunner init(BeerRepository br) {
-        return { args ->
-            ["a", "b", "c"].forEach { n -> br.save(new Beer(name: n)) }
-            br.findAll().forEach { println(it) }
-        }
-    }
-
     static void main(String[] args) {
         SpringApplication.run BeerCatalogServiceApplication, args
+    }
+
+    @Bean
+    ApplicationRunner init(BeerRepository repository) {
+        return {
+            args ->
+                ["PBR", "Coors Light", "Kronenbourg", "Budweiser", "Heineken", "Sapporo", "Tsingtao", "Rochefort", "Star Lager",
+                 "Castle Lager", "Nomad Jet Lag IPA", "Brahma", "Patagonia", "Bierschmiede Amboss"]
+                        .forEach { repository.save(new Beer(name: it)) }
+                repository.findAll().forEach { println(it) }
+        }
     }
 }
 
 @RestController
-class BeerController {
+class BeerRestController {
 
     @Autowired
     BeerRepository repository
 
     @GetMapping("/beers")
-    def beers() {
+    def beer() {
         return repository.findAll()
     }
 }
 
 interface BeerRepository extends JpaRepository<Beer, Long> {}
 
-@Canonical
 @Entity
+@Canonical
 class Beer {
 
     @Id

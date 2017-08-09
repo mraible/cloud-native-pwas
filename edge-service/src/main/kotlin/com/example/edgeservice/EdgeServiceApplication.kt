@@ -8,13 +8,12 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.netflix.feign.FeignClient
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy
-import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
-@EnableZuulProxy
 @EnableCircuitBreaker
 @EnableFeignClients
+@EnableZuulProxy
 @EnableDiscoveryClient
 @SpringBootApplication
 class EdgeServiceApplication
@@ -24,26 +23,25 @@ fun main(args: Array<String>) {
 }
 
 @FeignClient("beer-catalog-service")
-interface CraftBeerClient {
+interface BeerClient {
 
     @GetMapping("/beers")
     fun read(): Array<Beer>
 }
 
+
 @RestController
-class CraftBeerApiAdapter(val client: CraftBeerClient) {
+class BeerApiAdapterRestController(val beerClient: BeerClient) {
 
-    fun goodBeersFallback(): Collection <Map<String, String>> = arrayListOf()
+    fun fallback(): Collection <Beer> = arrayListOf()
 
+    @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping("/good-beers")
-    @HystrixCommand(fallbackMethod = "goodBeersFallback")
-    @CrossOrigin(origins = arrayOf("*"))
-    fun goodBeers(): Collection<Map <String, String?>> {
-        return client
-                .read()
-                .filter { it.name != "b" }
-                .map { mapOf("name" to it.name) }
-    }
+    fun goodBeers(): Collection<Beer> =
+            beerClient
+                    .read()
+                    .filter { !arrayOf("Coors Light", "PBR", "Budweiser", "Heineken").contains(it.name) }
+
 }
 
-data class Beer(var name: String? = null, var id: Long? = null)
+class Beer(var id: Long? = null, var name: String? = null)
