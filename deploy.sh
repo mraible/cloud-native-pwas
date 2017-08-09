@@ -41,8 +41,11 @@ cf ds -f pwa-eureka-service
 cf a
 cf s
 
-# build all the java apps
-cd $r && find . -iname pom.xml | xargs -I pom  mvn -DskipTests clean install -f pom
+# build all the Maven-based Java apps
+cd $r && find . -iname pom.xml | xargs -I pom  mvn -DskipTests clean package -f pom
+
+# build the Gradle-based Java apps
+cd $r/beer-catalog-service && ./gradlew bootRepackage
 
 # Eureka
 cd $r/eureka-service
@@ -51,7 +54,7 @@ deploy_service pwa-eureka-service
 
 # Beer Service
 cd $r/beer-catalog-service
-cf push -p target/*jar pwa-beer-catalog-service --no-start  --random-route
+cf push -p build/libs/*jar pwa-beer-catalog-service --no-start  --random-route
 cf bs pwa-beer-catalog-service  pwa-eureka-service
 cf start pwa-beer-catalog-service
 
