@@ -8,6 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.cloud.netflix.feign.EnableFeignClients
 import org.springframework.cloud.netflix.feign.FeignClient
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy
+import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -36,6 +37,7 @@ class CraftBeerApiAdapter(val client: CraftBeerClient) {
 
     @GetMapping("/good-beers")
     @HystrixCommand(fallbackMethod = "goodBeersFallback")
+    @CrossOrigin(origins = arrayOf("*"))
     fun goodBeers(): Collection<Map <String, String?>> {
         return client
                 .read()
