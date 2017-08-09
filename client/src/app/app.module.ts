@@ -8,6 +8,7 @@ import { HttpModule } from '@angular/http';
 import { GiphyService } from './shared/giphy/giphy.service';
 import { AppMaterialModule } from './app.material.module';
 import { AppShellModule } from '@angular/app-shell';
+import { OktaAuthService } from './shared/okta/okta.service';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { AppShellModule } from '@angular/app-shell';
     AppMaterialModule,
     AppShellModule.runtime()
   ],
-  providers: [BeerService, GiphyService],
+  providers: [BeerService, GiphyService, OktaAuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule {
