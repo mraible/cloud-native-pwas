@@ -18,5 +18,5 @@ touch dist/Staticfile
 cd $start
 cf push
 
-git checkout $r/client
-rm $r/client/src/app/shared/beer/beer.service.ts-e
+git checkout $start/client
+rm $start/client/src/app/shared/beer/beer.service.ts-e
