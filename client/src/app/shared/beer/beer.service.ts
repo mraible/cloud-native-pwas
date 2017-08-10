@@ -15,6 +15,7 @@ export class BeerService {
       headers.append('Authorization', accessToken.tokenType + ' ' + accessToken.accessToken);
     }
     const options = new RequestOptions({ headers: headers });
+    console.log('headers', headers);
     return this.http.get('http://localhost:8081/good-beers', options)
       .map((response: Response) => response.json());
   }
