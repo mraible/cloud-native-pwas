@@ -21,7 +21,6 @@ repositories {
 	mavenCentral()
 }
 
-
 ext {
 	springCloudVersion = 'Dalston.SR2'
 }
@@ -41,3 +40,5 @@ dependencyManagement {
 		mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
 	}
 }
+
+defaultTasks 'bootrun'
