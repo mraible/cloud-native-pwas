@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
+@EnableZuulProxy
 @EnableCircuitBreaker
 @EnableFeignClients
-@EnableZuulProxy
 @EnableDiscoveryClient
 @SpringBootApplication
 class EdgeServiceApplication
@@ -24,26 +24,25 @@ fun main(args: Array<String>) {
 }
 
 @FeignClient("beer-catalog-service")
-interface BeerClient {
+interface CraftBeerClient {
 
     @GetMapping("/beers")
     fun read(): Array<Beer>
 }
 
-
 @RestController
-class BeerApiAdapterRestController(val beerClient: BeerClient) {
+class CraftBeerApiAdapter(val client: CraftBeerClient) {
 
-    fun fallback(): Collection <Beer> = arrayListOf()
+    fun goodBeersFallback(): Collection <Map<String, String>> = arrayListOf()
 
-    @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping("/good-beers")
-    @CrossOrigin(origins = arrayOf("*"))
-    fun goodBeers(): Collection<Beer> =
-            beerClient
-                    .read()
-                    .filter { !arrayOf("Coors Light", "PBR", "Budweiser", "Heineken").contains(it.name) }
-
+    @HystrixCommand(fallbackMethod = "goodBeersFallback")
+    fun goodBeers(): Collection<Map <String, String?>> {
+        return client
+                .read()
+                .filter { it.name != "b" }
+                .map { mapOf("name" to it.name) }
+    }
 }
 
-class Beer(var id: Long? = null, var name: String? = null)
+data class Beer(var name: String? = null, var id: Long? = null)

@@ -1,7 +1,13 @@
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 @import '~https://fonts.googleapis.com/icon?family=Material+Icons';
+@import '~https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.1.0/css/okta-sign-in.min.css';
+@import '~https://ok1static.oktacdn.com/assets/js/sdk/okta-signin-widget/2.1.0/css/okta-theme.css';
 
 body {
   margin: 0;
   font-family: Roboto, sans-serif;
+}
+
+#okta-signin-container {
+  margin-top: 25px;
 }

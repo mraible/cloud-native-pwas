@@ -3,6 +3,7 @@ import { TestBed, async } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { AppMaterialModule } from './app.material.module';
 import { BeerListComponent } from './beer-list/beer-list.component';
+import { OktaAuthService } from './shared/okta/okta.service';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -10,7 +11,8 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent, BeerListComponent
       ],
-      imports: [AppMaterialModule]
+      imports: [AppMaterialModule],
+      providers: [OktaAuthService]
     }).compileComponents();
   }));
 
