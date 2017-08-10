@@ -21,4 +21,4 @@ cd $r/edge-service
 # Client
 cd $r/client
 yarn
-ng serve &
+yarn start &
