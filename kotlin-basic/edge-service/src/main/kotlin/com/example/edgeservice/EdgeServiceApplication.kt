@@ -11,7 +11,6 @@ import org.springframework.cloud.netflix.feign.FeignClient
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy
 import org.springframework.context.annotation.Bean
 import org.springframework.core.Ordered
-import org.springframework.web.bind.annotation.CrossOrigin
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.cors.CorsConfiguration
@@ -59,7 +58,6 @@ class CarApiAdapterRestController(val carClient: CarClient) {
 
     @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping("/good-cars")
-    @CrossOrigin(origins = arrayOf("*"))
     fun goodCars(): Collection<Car> =
             carClient
                     .read()
