@@ -56,7 +56,7 @@ fun main(args: Array<String>) {
                 }
                 bean {
                     router {
-                        val bad = listOf("Coors Light", "PBR", "Budweiser", "Heineken")
+                        val bad = listOf("Budweiser", "Heineken", "Kronenbourg", "Carlsberg", "Pieddeboeuf")
 
                         val client = ref<WebClient>()
 
@@ -75,19 +75,6 @@ fun main(args: Array<String>) {
                                     .eager()
                                     .build()
                             ServerResponse.ok().body(failureReadyBeers)
-                        }
-                    }.filter { request, next ->
-                        if (request.method() == HttpMethod.OPTIONS) {
-                            next.handle(request).flatMap { response ->
-                                val headers = response.headers()
-                                headers.accessControlAllowCredentials = true
-                                headers.accessControlAllowOrigin = "*"
-                                headers.accessControlAllowMethods = listOf(HttpMethod.GET)
-                                headers.accessControlAllowHeaders = listOf("*")
-                                response.toMono()
-                            }
-                        } else {
-                            next.handle(request)
                         }
                     }
                 }

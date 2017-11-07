@@ -26,9 +26,8 @@ fun main(args: Array<String>) {
                 bean {
                     ApplicationRunner {
                         val beersRepo = ref<BeerRepository>()
-                        val map: Publisher<Beer> = listOf("PBR", "Coors Light", "Kronenbourg", "Budweiser", "Heineken", "Sapporo",
-                                "Tsingtao", "Rochefort", "Star Lager", "Castle Lager", "Nomad Jet Lag IPA",
-                                "Brahma", "Patagonia", "Bierschmiede Amboss")
+                        val map: Publisher<Beer> = listOf("Budweiser", "Triple Karmeliet", "Duvel", "Kwak", "Heineken",
+                                "Sapparo", "Tsingtao", "San Miguel", "Kronenbourg", "Carlsberg", "Pieddeboeuf", "Baltika Porter")
                                 .toFlux()
                                 .flatMap { beersRepo.save(Beer(name = it)) }
                         beersRepo
