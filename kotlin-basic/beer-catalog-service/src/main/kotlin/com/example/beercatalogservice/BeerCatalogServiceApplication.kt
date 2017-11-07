@@ -6,8 +6,8 @@ import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
 import org.springframework.context.support.beans
 import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.data.rest.core.annotation.RepositoryRestResource
+import org.springframework.web.bind.annotation.*
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
@@ -40,8 +40,17 @@ class BeerRestController(private val beerRepository: BeerRepository) {
 
     @GetMapping("/beers")
     fun beers() = this.beerRepository.findAll()
+
+    @PostMapping("/beers")
+    @CrossOrigin(origins = arrayOf("*"))
+    fun add(@RequestBody beer: Beer): Beer {
+        this.beerRepository.save(beer)
+        return beer;
+    }
 }
 
+@RepositoryRestResource
+@CrossOrigin(origins = arrayOf("*"))
 interface BeerRepository : JpaRepository<Beer, Long>
 
 @Entity

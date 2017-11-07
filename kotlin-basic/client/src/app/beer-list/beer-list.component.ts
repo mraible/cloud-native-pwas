@@ -5,7 +5,6 @@ import { BeerService, GiphyService } from '../shared';
   selector: 'app-beer-list',
   templateUrl: './beer-list.component.html',
   styleUrls: ['./beer-list.component.css'],
-  providers: [BeerService, GiphyService]
 })
 export class BeerListComponent implements OnInit {
   beers: Array<any>;

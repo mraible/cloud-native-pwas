@@ -1,0 +1,24 @@
+<mat-card>
+  <form #beerForm="ngForm" (ngSubmit)="save(beerForm.value)">
+    <mat-card-header>
+      <mat-card-title>{{beer.name ? 'Edit' : 'Add'}} Beer</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <input type="hidden" name="href" [(ngModel)]="beer.href">
+      <mat-form-field>
+        <input matInput placeholder="Beer Name" [(ngModel)]="beer.name"
+               required name="name" #name>
+      </mat-form-field>
+      <br/><br/>
+      <button mat-raised-button color="primary" type="submit"
+              [disabled]="!beerForm.form.valid">Save</button>
+      <button mat-raised-button color="secondary" (click)="remove(beer.href)"
+              *ngIf="beer.href">Delete</button>
+      <a mat-button routerLink="/beer-list">Cancel</a>
+
+      <div class="giphy">
+        <img src="{{beer.giphyUrl}}" alt="{{beer.name}}">
+      </div>
+    </mat-card-content>
+  </form>
+</mat-card>
