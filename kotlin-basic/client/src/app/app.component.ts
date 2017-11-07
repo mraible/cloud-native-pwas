@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { OktaAuthModule, OktaAuthService } from '@okta/okta-angular';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +7,4 @@ import { OktaAuthModule, OktaAuthService } from '@okta/okta-angular';
 })
 export class AppComponent {
   title = 'app';
-
-  constructor(private oktaAuth: OktaAuthService) {}
 }
