@@ -22,4 +22,5 @@ cd $start
 cf push
 
 git checkout $start/client
-rm $start/client/src/app/shared/beer/beer.service.ts-e
+rm -rf $start/client/src/app/shared/beer/beer.service.ts-e
+rm -rf $start/edge-service/src/main/kotlin/com/example/edgeservice/EdgeServiceApplication.kt-e
