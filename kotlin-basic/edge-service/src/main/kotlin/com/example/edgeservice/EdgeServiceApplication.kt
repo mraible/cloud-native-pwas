@@ -38,7 +38,7 @@ class BeerApiAdapterRestController(val beerClient: BeerClient) {
 
     @HystrixCommand(fallbackMethod = "fallback")
     @GetMapping("/good-beers")
-    @CrossOrigin(origins = arrayOf("http://localhost:4200"))
+    @CrossOrigin(origins = arrayOf("*"))
     fun goodBeers(): Collection<Beer> =
             beerClient
                     .read()

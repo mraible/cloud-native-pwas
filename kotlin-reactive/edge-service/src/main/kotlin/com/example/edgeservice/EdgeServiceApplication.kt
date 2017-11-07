@@ -10,11 +10,15 @@ import org.springframework.cloud.gateway.handler.predicate.RoutePredicates.path
 import org.springframework.cloud.gateway.route.gateway
 import org.springframework.cloud.netflix.hystrix.HystrixCommands
 import org.springframework.context.support.beans
+import org.springframework.http.HttpMethod
+import org.springframework.web.cors.CorsConfiguration
+import org.springframework.web.cors.reactive.CorsWebFilter
 import org.springframework.web.reactive.function.client.WebClient
 import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.body
 import org.springframework.web.reactive.function.server.router
 import reactor.core.publisher.Flux
+import reactor.core.publisher.toMono
 
 @EnableDiscoveryClient
 @SpringBootApplication
@@ -24,6 +28,17 @@ fun main(args: Array<String>) {
     SpringApplicationBuilder()
             .sources(EdgeServiceApplication::class.java)
             .initializers(beans {
+                bean {
+                    /*
+                    config.setAllowedOrigins(listOf("domain1.com", "domain2.com"));
+                    config.setAllowedMethods(listOf("GET", "POST"));
+                    config.setAllowedHeaders(listOf("header1", "header2"));
+                    config.setExposedHeaders(listOf("header3", "header4"));
+                    config.setMaxAge(123L);
+                    config.setAllowCredentials(false);*/
+                    val config = CorsConfiguration()
+                    CorsWebFilter({ config.applyPermitDefaultValues() })
+                }
                 bean {
                     WebClient.builder().filter(ref<LoadBalancerExchangeFilterFunction>()).build()
                 }
@@ -60,6 +75,19 @@ fun main(args: Array<String>) {
                                     .eager()
                                     .build()
                             ServerResponse.ok().body(failureReadyBeers)
+                        }
+                    }.filter { request, next ->
+                        if (request.method() == HttpMethod.OPTIONS) {
+                            next.handle(request).flatMap { response ->
+                                val headers = response.headers()
+                                headers.accessControlAllowCredentials = true
+                                headers.accessControlAllowOrigin = "*"
+                                headers.accessControlAllowMethods = listOf(HttpMethod.GET)
+                                headers.accessControlAllowHeaders = listOf("*")
+                                response.toMono()
+                            }
+                        } else {
+                            next.handle(request)
                         }
                     }
                 }
