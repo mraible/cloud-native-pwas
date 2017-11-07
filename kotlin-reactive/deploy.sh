@@ -22,4 +22,4 @@ cd $start
 cf push
 
 git checkout $start/client
-rm -rf $start/client/src/app/shared/beer/beer.service.ts-e
+rm -rf $start/../kotlin-basic/client/src/app/shared/beer/beer.service.ts-e
