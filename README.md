@@ -20,6 +20,12 @@ To deploy this application stack on Cloud Foundry with [Pivotal Web Services](ht
 
 Both `kotlin-reactive` and `kotlin-basic` contain a `deploy.sh` script that you can run to deploy all four applications and configure them to work with each other.
 
+Running [Lighthouse](https://developers.google.com/web/tools/lighthouse/) on `kotlin-reactive` after it's deployed show it gets 💯 as a PWA!
+
+![Lighthouse Report](lighthouse-report.png)
+
+> **NOTE:** I blame the poor performance score on conference wi-fi.
+
 ## Learn More
 
 Watch [Building Robust APIs and Apps with Spring Boot and Angular](https://virtualjug.com/building-robust-apis-and-apps-with-spring-boot-and-angular/) from Virtual JUG, August 2017.
