@@ -21,5 +21,5 @@ echo "pushstate: enabled" >> dist/Staticfile
 cd $start
 cf push
 
-git checkout $start/client
+git checkout $start/../kotlin-basic/client
 rm -rf $start/../kotlin-basic/client/src/app/shared/beer/beer.service.ts-e
