@@ -18,7 +18,7 @@ To run the client and all the servers, execute `./run.sh`, or execute the [comma
 
 To deploy this application stack on Cloud Foundry with [Pivotal Web Services](http://run.pivotal.io/), you’ll need to create an account, download/install the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli#downloads), and sign-in (using `cf login -a api.run.pivotal.io`).
 
-Both `kotlin-reactive` and `kotlin-basic` contain a `deploy.sh` script that you can run to deploy all four application and configure them to work with each other.
+Both `kotlin-reactive` and `kotlin-basic` contain a `deploy.sh` script that you can run to deploy all four applications and configure them to work with each other.
 
 ## Learn More
 
