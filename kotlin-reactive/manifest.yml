@@ -5,9 +5,9 @@ applications:
   host: pwa-eureka
   path: ./eureka-service/target/eureka-service-0.0.1-SNAPSHOT.jar
 
-- name: beer-catalog-service
+- name: car-catalog-service
   host: pwa-bcs
-  path: ./beer-catalog-service/target/beer-catalog-service-0.0.1-SNAPSHOT.jar
+  path: ./car-catalog-service/target/car-catalog-service-0.0.1-SNAPSHOT.jar
   services:
     - pwa-eureka
 
