@@ -8,6 +8,7 @@ import { MatButtonModule, MatCardModule, MatListModule, MatToolbarModule } from 
 import { OktaAuthModule, OktaCallbackComponent } from '@okta/okta-angular';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthInterceptor } from './shared';
+import { CarService, GiphyService } from './shared';
 
 const config = {
   issuer: 'https://dev-158606.oktapreview.com/oauth2/default',
