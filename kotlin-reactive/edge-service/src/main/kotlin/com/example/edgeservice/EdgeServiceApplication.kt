@@ -49,32 +49,32 @@ fun main(args: Array<String>) {
                     gateway {
                         route {
                             id("custom-edge-reservations")
-                            predicate(path("/beers"))
-                            uri("lb://beer-catalog-service/beers")
+                            predicate(path("/cars"))
+                            uri("lb://car-catalog-service/cars")
                         }
                     }
                 }
                 bean {
                     router {
-                        val bad = listOf("Budweiser", "Heineken", "Kronenbourg", "Carlsberg", "Pieddeboeuf")
+                        val bad = listOf("AMC Gremlin", "Triumph Stag", "Ford Pinto", "Yugo GV", "Hummer H2")
 
                         val client = ref<WebClient>()
 
-                        GET("/good-beers") {
+                        GET("/good-cars") {
 
-                            val beers = client
+                            val cars = client
                                     .get()
-                                    .uri("http://beer-catalog-service/beers")
+                                    .uri("http://car-catalog-service/cars")
                                     .retrieve()
-                                    .bodyToFlux(Beer::class.java)
+                                    .bodyToFlux(Car::class.java)
                                     .filter { !bad.contains(it.name) }
-                            val failureReadyBeers = HystrixCommands
-                                    .from(beers)
-                                    .commandName("beers")
+                            val failureReadyCars = HystrixCommands
+                                    .from(cars)
+                                    .commandName("cars")
                                     .fallback(Flux.empty())
                                     .eager()
                                     .build()
-                            ServerResponse.ok().body(failureReadyBeers)
+                            ServerResponse.ok().body(failureReadyCars)
                         }
                     }
                 }
@@ -82,4 +82,4 @@ fun main(args: Array<String>) {
             .run(*args)
 }
 
-data class Beer(var id: String? = null, var name: String? = null)
+data class Car(var id: String? = null, var name: String? = null)
