@@ -11,7 +11,7 @@ cd $r/eureka-service
 ./mvnw spring-boot:run &
 
 # Beer Service
-cd $r/beer-catalog-service
+cd $r/car-catalog-service
 ./mvnw spring-boot:run &
 
 # Edge Service

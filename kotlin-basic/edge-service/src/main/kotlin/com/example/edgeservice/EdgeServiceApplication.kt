@@ -30,7 +30,7 @@ class EdgeServiceApplication {
         val source = UrlBasedCorsConfigurationSource()
         val config = CorsConfiguration()
         config.allowCredentials = true
-        config.allowedOrigins = listOf("http://localhost:4200")
+        config.allowedOrigins = listOf("*")
         config.allowedMethods = listOf("*");
         config.allowedHeaders = listOf("*")
         source.registerCorsConfiguration("/**", config)
@@ -44,27 +44,27 @@ fun main(args: Array<String>) {
     SpringApplication.run(EdgeServiceApplication::class.java, *args)
 }
 
-@FeignClient("beer-catalog-service")
-interface BeerClient {
+@FeignClient("car-catalog-service")
+interface CarClient {
 
-    @GetMapping("/beers")
-    fun read(): Array<Beer>
+    @GetMapping("/cars")
+    fun read(): Array<Car>
 }
 
 
 @RestController
-class BeerApiAdapterRestController(val beerClient: BeerClient) {
+class CarApiAdapterRestController(val carClient: CarClient) {
 
-    fun fallback(): Collection<Beer> = arrayListOf()
+    fun fallback(): Collection<Car> = arrayListOf()
 
     @HystrixCommand(fallbackMethod = "fallback")
-    @GetMapping("/good-beers")
+    @GetMapping("/good-cars")
     @CrossOrigin(origins = arrayOf("*"))
-    fun goodBeers(): Collection<Beer> =
-            beerClient
+    fun goodCars(): Collection<Car> =
+            carClient
                     .read()
-                    .filter { !arrayOf("Coors Light", "PBR", "Budweiser", "Heineken").contains(it.name) }
+                    .filter { !arrayOf("AMC Gremlin", "Triumph Stag", "Ford Pinto", "Yugo GV", "Hummer H2").contains(it.name) }
 
 }
 
-class Beer(var id: Long? = null, var name: String? = null)
+class Car(var id: Long? = null, var name: String? = null)
