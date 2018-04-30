@@ -1,6 +1,7 @@
 package com.example.edgeservice
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso
 import org.springframework.boot.builder.SpringApplicationBuilder
 import org.springframework.cloud.client.discovery.DiscoveryClient
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient
@@ -22,6 +23,7 @@ import reactor.core.publisher.toMono
 
 @EnableDiscoveryClient
 @SpringBootApplication
+@EnableOAuth2Sso
 class EdgeServiceApplication
 
 fun main(args: Array<String>) {
